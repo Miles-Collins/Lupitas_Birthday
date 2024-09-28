@@ -6,6 +6,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "BirthdayExample",
+      "request": "launch",
+      "mainClass": "BirthdayExample",
+      "projectName": "lupitas_birthday"
+    },
+    {
+      "type": "java",
       "name": "Current File",
       "request": "launch",
       "mainClass": "${file}"

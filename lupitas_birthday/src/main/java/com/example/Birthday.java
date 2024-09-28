@@ -5,7 +5,7 @@ import java.util.*;
 import org.json.simple.*;
 import org.json.simple.parser.*;
 
-public class BirthdayExample {
+public class Birthday {
 
   // this is a private and static hashmap to store the birthdays
   private static HashMap<String, String> birthdayMap = new HashMap<String, String>();
