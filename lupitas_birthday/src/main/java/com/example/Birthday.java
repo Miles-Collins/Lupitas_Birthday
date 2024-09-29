@@ -75,7 +75,8 @@ public class Birthday {
     String name = input.nextLine();
 
     // print user input
-    System.out.println("name = " + name);
+    System.out.println(name + "'s birthday is " + birthdayMap.get(name));
+
 
     // close the scanner
     input.close();
