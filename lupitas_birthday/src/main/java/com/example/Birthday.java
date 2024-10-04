@@ -1,84 +1,23 @@
 package com.example;
 
-import java.io.*;
-import java.util.*;
-import org.json.simple.*;
-import org.json.simple.parser.*;
+import java.util.Scanner;
+
+import org.json.simple.JSONArray;
 
 public class Birthday {
 
-  // this is a private and static hashmap to store the birthdays
-  private static HashMap<String, String> birthdayMap = new HashMap<String, String>();
+    public static void main(final String[] args) {
+        String pathToFile = "C:\\Users\\miles\\miles-collins\\Computer-Science\\Java-Fall-24\\Lupitas_Birthday\\lupitas_birthday\\src\\main\\java\\com\\example\\lupita-birthday-example-files\\birthdayOnlyForTesting.json";
 
-  // this code reads a the json file
-  // students do not have to change this function
-  public static JSONArray readJSONArrayFile(String fileName) {
-    // JSON parser object to parse read file
-    JSONParser jsonParser = new JSONParser();
+        BirthdayManager birthdayManager = new BirthdayManager();
+        JSONArray jsonData = FileReaderUtil.readJSONArrayFile(pathToFile);
+        birthdayManager.initializeMap(jsonData);
 
-    JSONArray birthdayArr = null;
+        System.out.println("Reading user input into a string");
 
-    // Read JSON file
-    try (FileReader reader = new FileReader(fileName)) {
-      Object obj = jsonParser.parse(reader);
-
-      birthdayArr = (JSONArray) obj;
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
-    } catch (ParseException e) {
-      e.printStackTrace();
+        try (Scanner input = new Scanner(System.in)) {
+            String name = UserInputHandler.getUserInput(input);
+            birthdayManager.getBirthday(name);
+        }
     }
-
-    return birthdayArr;
-  }
-
-  // students do not have to change this function
-  public static void initializeMap(final String pathToFile) {
-    JSONArray jsonData = readJSONArrayFile(pathToFile);
-
-    // loop over list
-    String birthday, name;
-    JSONObject obj;
-    for (Integer i = 0; i < jsonData.size(); i++) {
-      // parse the object and pull out the name and birthday
-      obj = (JSONObject) jsonData.get(i);
-      birthday = (String) obj.get("birthday");
-      name = (String) obj.get("name");
-
-      // add the name and birthday in to a hashmap
-      birthdayMap.put(name, birthday);
-
-      // print the names and birthdays
-      System.out.println("name = " + name);
-      System.out.println("birthday = " + birthday);
-    }
-  }
-
-  public static void main(final String[] args) {
-  System.err.println("Test");
-    String pathToFile =
-      "C:\\Users\\miles\\miles-collins\\Computer-Science\\Java-Fall-24\\Lupitas_Birthday\\lupitas_birthday\\src\\main\\java\\com\\example\\lupita-birthday-example-files\\birthdayOnlyForTesting.json";
-
-    // students should change the code below in order to implment their own solution
-
-    // initialize the hash map
-    initializeMap(pathToFile);
-
-    // read user input from keyboard
-    System.out.println("Reading user input into a string");
-
-    // get user input
-    Scanner input = new Scanner(System.in);
-    System.out.print("Enter a name:");
-    String name = input.nextLine();
-
-    // print user input
-    System.out.println(name + "'s birthday is " + birthdayMap.get(name));
-
-
-    // close the scanner
-    input.close();
-  }
 }
