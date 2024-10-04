@@ -47,17 +47,28 @@ public class BirthdayManager {
         if (foundPeople.size() == 1) {
             System.out.println(name + "'s birthday is " + getBirthday(name));
         } else if (!foundPeople.isEmpty()) {
-            System.out.println("Here is a list of names that match your input. Please try to narrow down your search by using first AND last name.");
-            System.out.println(foundPeople);
-        } else {
-            System.out.println(name + " not found in the birthday list. Please try again.");
+            System.out.println("Here is a list of names that match your input. Please type in the number associated with the name, or try the full name of the person you're looking for.");
+            for (int i = 1; i <= foundPeople.size(); i++) {
+                if (i != foundPeople.size()) {
+                    System.out.print(i + ": " + foundPeople.get(i - 1) + ", ");
+                } else {
+                    System.out.print(i + ": " + foundPeople.get(i - 1) + ".\n");
+                }
+            }
+            System.out.print("Please enter the number associated with the name or enter another name: ");
             try (Scanner input = new Scanner(System.in)) {
-                String newName = UserInputHandler.getUserInput(input);
-                printBirthday(newName);
-                getBirthday(newName);
+                if (input.hasNextInt()) {
+                    int index = input.nextInt();
+                    printBirthday(foundPeople.get(index - 1));
+                } else {
+                    String newName = input.next();
+                    printBirthday(newName);
+                }
             } catch (Exception e) {
                 System.out.println("Error: " + e);
             }
+        } else {
+            System.out.println(name + " not found in the birthday list. Please try again.");
         }
     }
 }
