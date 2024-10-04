@@ -12,13 +12,6 @@
     },
     {
       "type": "java",
-      "name": "App",
-      "request": "launch",
-      "mainClass": "com.example.App",
-      "projectName": "lupitas_birthday"
-    },
-    {
-      "type": "java",
       "name": "Birthday",
       "request": "launch",
       "mainClass": "com.example.Birthday",

@@ -1,7 +1,10 @@
 package com.example;
 
-import java.util.*;
-import org.json.simple.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Scanner;
+
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 public class BirthdayManager {
@@ -17,9 +20,6 @@ public class BirthdayManager {
             name = (String) obj.get("name");
 
             birthdayMap.put(name, birthday);
-
-            System.out.println("name = " + name);
-            System.out.println("birthday = " + birthday);
         }
     }
 
@@ -33,18 +33,31 @@ public class BirthdayManager {
         return foundPeople;
     }
 
-    public void getBirthday(String name) {
+    public String getBirthday(String name) {
+        for (String user : birthdayMap.keySet()) {
+            if (user.contains(name)) {
+                return birthdayMap.get(user);
+            }
+        }
+        return birthdayMap.get(name);
+    }
+
+    public void printBirthday(String name) {
         ArrayList<String> foundPeople = getPeople(name);
         if (foundPeople.size() == 1) {
-            System.out.println(name + "'s birthday is " + birthdayMap.get(name));
+            System.out.println(name + "'s birthday is " + getBirthday(name));
         } else if (!foundPeople.isEmpty()) {
-            System.err.println("Here is a list of names that match your input. Please try to narrow down your search by using first AND last name.");
+            System.out.println("Here is a list of names that match your input. Please try to narrow down your search by using first AND last name.");
             System.out.println(foundPeople);
         } else {
             System.out.println(name + " not found in the birthday list. Please try again.");
-            Scanner newInput = new Scanner(System.in);
-            String newName = UserInputHandler.getUserInput(newInput);
-            getBirthday(newName);
+            try (Scanner input = new Scanner(System.in)) {
+                String newName = UserInputHandler.getUserInput(input);
+                printBirthday(newName);
+                getBirthday(newName);
+            } catch (Exception e) {
+                System.out.println("Error: " + e);
+            }
         }
     }
 }
