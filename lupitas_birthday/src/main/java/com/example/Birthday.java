@@ -1,7 +1,5 @@
 package com.example;
 
-import java.util.Scanner;
-
 import org.json.simple.JSONArray;
 
 public class Birthday {
@@ -12,12 +10,9 @@ public class Birthday {
         BirthdayManager birthdayManager = new BirthdayManager();
         JSONArray jsonData = FileReaderUtil.readJSONArrayFile(pathToFile);
         birthdayManager.initializeMap(jsonData);
+        System.out.println("Birthday map initialized.");
 
-        System.out.println("Reading user input into a string");
-
-        try (Scanner input = new Scanner(System.in)) {
-            String name = UserInputHandler.getUserInput(input);
-            birthdayManager.printBirthday(name);
-        }
+        UserInputHandler userInputHandler = new UserInputHandler(birthdayManager);
+        userInputHandler.getUserInput();
     }
 }

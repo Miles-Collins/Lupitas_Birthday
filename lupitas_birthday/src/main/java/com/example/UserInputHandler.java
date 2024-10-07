@@ -4,8 +4,19 @@ import java.util.Scanner;
 
 public class UserInputHandler {
 
-    public static String getUserInput(Scanner input) {
-        System.out.print("Enter a name: ");
-        return input.nextLine();
+    private BirthdayManager birthdayManager;
+
+    public UserInputHandler(BirthdayManager birthdayManager) {
+        this.birthdayManager = birthdayManager;
+    }
+
+    public void getUserInput() {
+        try (Scanner input = new Scanner(System.in)) {
+            while (true) {
+                System.out.print("Enter a name: ");
+                String name = input.next();
+                birthdayManager.printBirthday(name, input);
+            }
+        }
     }
 }
