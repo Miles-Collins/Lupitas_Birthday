@@ -7,10 +7,18 @@ import java.util.Scanner;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+/**
+ * Manages the birthday data and searches for people based on their names.
+ */
 public class BirthdayManager {
 
     private HashMap<String, String> birthdayMap = new HashMap<>();
 
+    /**
+     * Initializes the birthday map with the data from the JSON file.
+     *
+     * @param jsonData The JSON data to initialize the map with.
+     */
     public void initializeMap(JSONArray jsonData) {
         String birthday, name;
         JSONObject obj;
@@ -21,12 +29,16 @@ public class BirthdayManager {
 
             birthdayMap.put(name, birthday);
         }
-        // System.out.println("Birthday map initialized with data: " + birthdayMap);
+
     }
 
+    /**
+     * Searches for people whose names contain the given name.
+     *
+     * @param name The name to search for.
+     * @return A list of matching names.
+     */
     public ArrayList<String> getPeople(String name) {
-        // System.out.println("Searching for " + name + " in the birthday map.");
-        // System.out.println("Birthday map: " + birthdayMap);
         ArrayList<String> foundPeople = new ArrayList<>();
         for (String user : birthdayMap.keySet()) {
             if (user.toLowerCase().contains(name.toLowerCase())) {
@@ -36,9 +48,13 @@ public class BirthdayManager {
         return foundPeople;
     }
 
+    /**
+     * Searches for people whose names contain the given name.
+     *
+     * @param name The name to search for.
+     * @return A list of matching names.
+     */
     public String getBirthday(String name) {
-        // System.out.println("Searching for " + name + " in the birthday map.");
-        // System.out.println("Birthday map: " + birthdayMap);
         for (String user : birthdayMap.keySet()) {
             if (user.toLowerCase().contains(name.toLowerCase())) {
                 return birthdayMap.get(user);
@@ -47,26 +63,41 @@ public class BirthdayManager {
         return null;
     }
 
+    /**
+     * Prompts the user to search for another name.
+     *
+     * @param input
+     */
     public void promptUser(Scanner input) {
-        System.out.print("Would you like to search for another name? (yes/no): ");
-        String response = input.next();
-        switch (response.toLowerCase()) {
-            case "yes" -> {
-                System.out.print("Please enter the name of the person you would like to search for: ");
-                String name = input.next();
-                printBirthday(name, input);
+        try {
+            System.out.print("Would you like to search for another name? (yes/no): ");
+            String response = input.next();
+            switch (response.toLowerCase()) {
+                case "yes" -> {
+                    System.out.print("Please enter the name of the person you would like to search for: ");
+                    String name = input.next();
+                    printBirthday(name, input);
+                }
+                case "no" -> {
+                    System.out.println("Goodbye!");
+                    System.exit(0);
+                }
+                default -> {
+                    System.out.println("Invalid input. Please enter 'yes' or 'no'.");
+                    promptUser(input);
+                }
             }
-            case "no" -> {
-                System.out.println("Goodbye!");
-                System.exit(0);
-            }
-            default -> {
-                System.out.println("Invalid input. Please try again.");
-                promptUser(input);
-            }
+        } catch (Exception e) {
+            System.out.println("Invalid input. Please try again.");
         }
     }
 
+    /**
+     * Prints the birthday of the person with the given name.
+     *
+     * @param name The name of the person.
+     * @param input The scanner object to read user input.
+     */
     public void printBirthday(String name, Scanner input) {
         ArrayList<String> foundPeople = getPeople(name);
         if (foundPeople.size() == 1) {

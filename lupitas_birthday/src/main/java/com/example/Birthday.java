@@ -2,6 +2,9 @@ package com.example;
 
 import org.json.simple.JSONArray;
 
+/**
+ * Main class for the birthday program.
+ */
 public class Birthday {
 
     public static void main(final String[] args) {

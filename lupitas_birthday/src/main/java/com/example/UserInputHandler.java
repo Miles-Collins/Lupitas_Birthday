@@ -10,6 +10,10 @@ public class UserInputHandler {
         this.birthdayManager = birthdayManager;
     }
 
+    /**
+     * Gets user input and prints the birthday of the person with the given
+     * name.
+     */
     public void getUserInput() {
         try (Scanner input = new Scanner(System.in)) {
             while (true) {
