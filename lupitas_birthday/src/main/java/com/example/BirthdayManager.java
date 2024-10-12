@@ -105,7 +105,7 @@ public class BirthdayManager {
     public void printBirthday(String name, Scanner input) {
         ArrayList<String> foundPeople = getPeople(name);
         if (foundPeople.size() == 1) {
-            System.out.println(name + "'s birthday is " + getBirthday(name));
+            System.out.println(foundPeople.getFirst() + "'s birthday is " + getBirthday(name));
             promptUser(input);
         } else if (!foundPeople.isEmpty()) {
             System.out.println("Here is a list of names that match your input. Please type in the number associated with the name, or try the full name of the person you're looking for.");
