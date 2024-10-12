@@ -40,6 +40,10 @@ public class BirthdayManager {
      */
     public ArrayList<String> getPeople(String name) {
         ArrayList<String> foundPeople = new ArrayList<>();
+        // if (birthdayMap.containsKey(name)) {
+        //     foundPeople.add(name);
+        //     return foundPeople;
+        // }
         for (String user : birthdayMap.keySet()) {
             if (user.toLowerCase().contains(name.toLowerCase())) {
                 foundPeople.add(user);
@@ -117,7 +121,7 @@ public class BirthdayManager {
                 int index = input.nextInt();
                 printBirthday(foundPeople.get(index - 1), input);
             } else {
-                String newName = input.next();
+                String newName = input.nextLine();
                 printBirthday(newName, input);
             }
         } else {

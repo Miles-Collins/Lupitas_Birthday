@@ -18,9 +18,8 @@ public class UserInputHandler {
         try (Scanner input = new Scanner(System.in)) {
             while (true) {
                 System.out.print("Enter a name: ");
-                String name = input.next();
-                 birthdayManager
-                .printBirthday(name, input);
+                String name = input.nextLine();
+                birthdayManager.printBirthday(name, input);
             }
         }
     }
