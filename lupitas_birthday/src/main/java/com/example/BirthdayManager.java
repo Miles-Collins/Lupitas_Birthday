@@ -40,10 +40,6 @@ public class BirthdayManager {
      */
     public ArrayList<String> getPeople(String name) {
         ArrayList<String> foundPeople = new ArrayList<>();
-        // if (birthdayMap.containsKey(name)) {
-        //     foundPeople.add(name);
-        //     return foundPeople;
-        // }
         for (String user : birthdayMap.keySet()) {
             if (user.toLowerCase().contains(name.toLowerCase())) {
                 foundPeople.add(user);
@@ -73,60 +69,63 @@ public class BirthdayManager {
      * @param input
      */
     public void promptUser(Scanner input) {
-        try {
-            System.out.print("Would you like to search for another name? (yes/no): ");
-            String response = input.next();
-            switch (response.toLowerCase()) {
-                case "yes" -> {
-                    System.out.print("Please enter the name of the person you would like to search for: ");
-                    String name = input.next();
-                    printBirthday(name, input);
+        System.out.print("Would you like to search for another name? (yes/no): ");
+        String response = input.next().trim();
+        switch (response.toLowerCase()) {
+            case "yes" -> {
+                System.out.print("Please enter the name of the person you would like to search for: ");
+                String name = input.nextLine().trim();
+                if (name.isEmpty()) {
+                    name = input.nextLine().trim();
                 }
-                case "no" -> {
-                    System.out.println("Goodbye!");
-                    System.exit(0);
-                }
-                default -> {
-                    System.out.println("Invalid input. Please enter 'yes' or 'no'.");
-                    promptUser(input);
-                }
+                printBirthday(name, input);
             }
-        } catch (Exception e) {
-            System.out.println("Invalid input. Please try again.");
+            case "no" -> {
+                System.out.println("Goodbye!");
+                System.exit(0);
+            }
+            default -> {
+                System.out.println("Invalid input. Please enter 'yes' or 'no'.");
+                promptUser(input);
+            }
         }
     }
 
-    /**
-     * Prints the birthday of the person with the given name.
-     *
-     * @param name The name of the person.
-     * @param input The scanner object to read user input.
-     */
+    private void displayFoundPeople(ArrayList<String> foundPeople) {
+        System.out.println("Here is a list of names that match your input. Please type in the number associated with the name, or try the full name of the person you're looking for.");
+        for (int i = 1; i <= foundPeople.size(); i++) {
+            if (i != foundPeople.size()) {
+                System.out.print(i + ": " + foundPeople.get(i - 1) + ", ");
+            } else {
+                System.out.print(i + ": " + foundPeople.get(i - 1) + ".\n");
+            }
+        }
+    }
+
+    private void handleUserSelection(ArrayList<String> foundPeople, Scanner input) {
+        System.out.print("Please enter the number associated with the name or enter another name: ");
+        if (input.hasNextInt()) {
+            int index = input.nextInt();
+            input.nextLine(); // Consume the newline character
+            printBirthday(foundPeople.get(index - 1), input);
+        } else {
+            String newName = input.nextLine().trim();
+            printBirthday(newName, input);
+        }
+    }
+
     public void printBirthday(String name, Scanner input) {
         ArrayList<String> foundPeople = getPeople(name);
         if (foundPeople.size() == 1) {
-            System.out.println(foundPeople.getFirst() + "'s birthday is " + getBirthday(name));
+            System.out.println(foundPeople.get(0) + "'s birthday is " + getBirthday(foundPeople.get(0)));
             promptUser(input);
         } else if (!foundPeople.isEmpty()) {
-            System.out.println("Here is a list of names that match your input. Please type in the number associated with the name, or try the full name of the person you're looking for.");
-            for (int i = 1; i <= foundPeople.size(); i++) {
-                if (i != foundPeople.size()) {
-                    System.out.print(i + ": " + foundPeople.get(i - 1) + ", ");
-                } else {
-                    System.out.print(i + ": " + foundPeople.get(i - 1) + ".\n");
-                }
-            }
-            System.out.print("Please enter the number associated with the name or enter another name: ");
-            if (input.hasNextInt()) {
-                int index = input.nextInt();
-                printBirthday(foundPeople.get(index - 1), input);
-            } else {
-                String newName = input.nextLine();
-                printBirthday(newName, input);
-            }
+            displayFoundPeople(foundPeople);
+            handleUserSelection(foundPeople, input);
         } else {
             System.out.println(name + " not found in the birthday list. Please try again.");
             promptUser(input);
         }
     }
+
 }
