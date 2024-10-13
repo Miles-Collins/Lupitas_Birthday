@@ -88,14 +88,16 @@ public class BirthdayManager {
         }
     }
 
-    private void displayFoundPeople(ArrayList<String> foundPeople) {
-        System.out.println("Here is a list of names that match your input. Please type in the number associated with the name, or try the full name of the person you're looking for.");
-        for (int i = 1; i <= foundPeople.size(); i++) {
-            if (i != foundPeople.size()) {
-                System.out.print(i + ": " + foundPeople.get(i - 1) + ", ");
-            } else {
-                System.out.print(i + ": " + foundPeople.get(i - 1) + ".\n");
+    private void displayFoundPeople(ArrayList<String> foundPeople, Scanner input) {
+        if (foundPeople.size() == 1) {
+            System.out.println(foundPeople.get(0) + "'s birthday is " + getBirthday(foundPeople.get(0)));
+            promptUser(input);
+        } else {
+            System.out.println("Here is a list of names that match your input. Please type in the number associated with the name, or try the full name of the person you're looking for.");
+            for (int i = 0; i < foundPeople.size(); i++) {
+                System.out.printf("%d: %s%s", i + 1, foundPeople.get(i), (i < foundPeople.size() - 1) ? ", " : "\n");
             }
+            handleUserSelection(foundPeople, input);
         }
     }
 
@@ -103,7 +105,7 @@ public class BirthdayManager {
         System.out.print("Please enter the number associated with the name or enter another name: ");
         if (input.hasNextInt()) {
             int index = input.nextInt();
-            input.nextLine(); // Consume the newline character
+            input.nextLine();
             printBirthday(foundPeople.get(index - 1), input);
         } else {
             String newName = input.nextLine().trim();
@@ -113,16 +115,11 @@ public class BirthdayManager {
 
     public void printBirthday(String name, Scanner input) {
         ArrayList<String> foundPeople = getPeople(name);
-        if (foundPeople.size() == 1) {
-            System.out.println(foundPeople.get(0) + "'s birthday is " + getBirthday(foundPeople.get(0)));
-            promptUser(input);
-        } else if (!foundPeople.isEmpty()) {
-            displayFoundPeople(foundPeople);
-            handleUserSelection(foundPeople, input);
+        if (!foundPeople.isEmpty()) {
+            displayFoundPeople(foundPeople, input);
         } else {
             System.out.println(name + " not found in the birthday list. Please try again.");
             promptUser(input);
         }
     }
-
 }

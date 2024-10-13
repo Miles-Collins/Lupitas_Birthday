@@ -16,11 +16,9 @@ public class UserInputHandler {
      */
     public void getUserInput() {
         try (Scanner input = new Scanner(System.in)) {
-            while (true) {
-                System.out.print("Enter a name: ");
-                String name = input.nextLine();
-                birthdayManager.printBirthday(name, input);
-            }
+            System.out.print("Enter a name: ");
+            String name = input.nextLine();
+            birthdayManager.printBirthday(name, input);
         }
     }
 }
