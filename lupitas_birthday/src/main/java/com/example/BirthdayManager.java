@@ -71,23 +71,20 @@ public class BirthdayManager {
     public void promptUser(Scanner input) {
         System.out.print("Would you like to search for another name? (yes/no): ");
         String response = input.next().trim();
-        switch (response.toLowerCase()) {
-            case "yes" -> {
-                System.out.print("Please enter the name of the person you would like to search for: ");
-                String name = input.nextLine().trim();
-                if (name.isEmpty()) {
-                    name = input.nextLine().trim();
-                }
-                printBirthday(name, input);
+        while (!response.toLowerCase().equals("yes") && !response.toLowerCase().equals("no")) {
+            System.out.println("Invalid input. Please enter 'yes' or 'no'.");
+            response = input.next().trim();
+        }
+        if (response.toLowerCase().equals("yes")) {
+            System.out.print("Please enter the name of the person you would like to search for: ");
+            String name = input.nextLine().trim();
+            if (name.isEmpty()) {
+                name = input.nextLine().trim();
             }
-            case "no" -> {
-                System.out.println("Goodbye!");
-                System.exit(0);
-            }
-            default -> {
-                System.out.println("Invalid input. Please enter 'yes' or 'no'.");
-                promptUser(input);
-            }
+            printBirthday(name, input);
+        } else {
+            System.out.println("Goodbye!");
+            System.exit(0);
         }
     }
 
